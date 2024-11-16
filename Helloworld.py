@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 from PIL import Image
 from io import BytesIO
+import pycountry
+import random
 
 # Function to fetch the flag of a country
 def fetch_flag_image(country_name):
@@ -18,14 +20,17 @@ def fetch_flag_image(country_name):
         return None
 
 # List of countries
-countries = ["Kenya", "Sri Lanka", "United States", "United Kingdom"]
+countries = [country.name for country in pycountry.countries]
 
 # Streamlit App
 st.title("Flags of Selected Countries")
 
-for country in countries:
+count = 0
+while count < 4:
+    country = random.choice(countries)
     flag_image = fetch_flag_image(country)
     if flag_image:
         st.image(flag_image, caption=f"Flag of {country}", use_container_width=True)
     else:
         st.error(f"Flag not found for {country}.")
+    count = count + 1
